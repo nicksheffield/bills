@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "115256534571",
+    "firebase_url": "https://bills-444b4.firebaseio.com",
+    "project_id": "bills-444b4",
+    "storage_bucket": "bills-444b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115256534571:android:74fad2385da16970",
+        "android_client_info": {
+          "package_name": "com.nicksheffield.bills"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115256534571-l8f4ojfshd5i8j995pp9qmhmma8sgvia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgwvqX9EQzz686KrRdwXEClNUSJ51QE-M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
