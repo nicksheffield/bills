@@ -23,4 +23,6 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 
+    <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="115256534571\0"/>
+
 </manifest>
