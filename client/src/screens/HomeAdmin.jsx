@@ -12,6 +12,14 @@ const Name = styled.span`
 	margin-${props => props.left ? 'left' : 'right'}: 0.5em;
 `
 
+const Table = styled.table.attrs({
+	className: 'table'
+})`
+	& > tbody > tr > td {
+		vertical-align: middle;
+	}
+`
+
 @graphql(`
 	query($token: String!) {
 		bills(token: $token, paid: false) {
@@ -25,7 +33,7 @@ const Name = styled.span`
 			}
 			payments(paid: false) {
 				id
-				paid
+				paid_at
 				amount
 				user {
 					id
@@ -46,9 +54,9 @@ export default class Home extends Component {
 			<Page>
 				<h1 className="mb-5">Welcome {you.name}</h1>
 
-				<h2 className="mb-3">Unpaid bills</h2>
+				<h2 className="mb-3">Pending bills</h2>
 
-				<table className="table">
+				<Table>
 					<thead className="thead-light">
 						<tr>
 							<th style={{ width: '50px' }}></th>
@@ -71,12 +79,14 @@ export default class Home extends Component {
 								<td>{moment(bill.date).format('YYYY-MM-DD')}</td>
 								<td>${bill.total_amount}</td>
 								<td>
-									{bill.payments.length ? bill.payments.map(payment => (
-										payment.user.id !== you.id && (
-											<Name key={payment.id}>{payment.user.name}</Name>
-										)
-									)) : (
+									{bill.payments.length === 1 ? (
 										<Name>Nobody</Name>
+									) : (
+										bill.payments.map(payment => (
+											((payment.user.id !== you.id) && !payment.paid_at) && (
+												<Name key={payment.id}>{payment.user.name}</Name>
+											))
+										)
 									)}
 								</td>
 							</tr>
@@ -86,7 +96,7 @@ export default class Home extends Component {
 							</tr>
 						)}
 					</tbody>
-				</table>
+				</Table>
 			</Page>
 		)
 	}

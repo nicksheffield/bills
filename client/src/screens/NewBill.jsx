@@ -192,7 +192,7 @@ export default class NewBill extends Component {
 					</FormGroup>
 
 					<FormGroup push={100} button>
-						<Button type="primary" icon="arrow-right" text="Create" submit />
+						<Button type="success" icon="arrow-right" text="Create" submit />
 					</FormGroup>
 				</form>
 			</Page>

@@ -25,11 +25,6 @@ module.exports = {
 		let where = { id: args.id }
 		let values = pick(args, ['paid', 'paid_at', 'confirmed_at'])
 
-		// values.paid_at = moment(values.paid_at).format('YYYY-MM-DD')
-		// values.confirmed_at = moment(values.confirmed_at).format('YYYY-MM-DD')
-		
-		console.log('values', values)
-
 		return getUser(args.token)
 			.then(user => Payment.update(values, { where }))
 			.then(() => Payment.findOne({ where }))

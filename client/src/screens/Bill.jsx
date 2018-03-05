@@ -11,15 +11,6 @@ import styled from 'styled-components'
 import graphql from 'hoc/@graphql'
 import guard from 'hoc/@guard'
 
-const Equation = styled.pre`
-	color: #000;
-	padding: 1em;
-	border-radius: 3px;
-	border: 1px solid #ddd;
-	background: #eee;
-	margin: 3em 0;
-`
-
 const Table = styled.table.attrs({
 	className: 'table'
 })`
@@ -42,12 +33,12 @@ const Date = styled.p`
 @graphql(`
 	query($token: String!, $id: Int!) {
 		bills(token: $token, id: $id) {
-			id, total_amount, date
+			id, total_amount, date, created_at
 			billtype {
 				id, name, icon
 			}
 			payments {
-				id, paid, amount, paid_at, confirmed_at
+				id, amount, paid_at, confirmed_at
 				user {
 					id, name
 				}
@@ -88,7 +79,7 @@ export default class Home extends Component {
 		})
 	}
 
-	confirm = (payment) => (event) => {
+	setConfirmed = (payment) => (event) => {
 		const confirmed = event.target.checked
 
 		// do axios graphql here
@@ -106,7 +97,28 @@ export default class Home extends Component {
 				confirmed_at: confirmed ? moment().format('YYYY-MM-DD') : null
 			}
 		}).then(response => {
-			console.log('done', response)
+			this.props.reload()
+		})
+	}
+
+	setPaid = (payment) => (event) => {
+		const paid = event.target.checked
+
+		// do axios graphql here
+		axios.post(config.api, {
+			query: `
+				mutation($token: String!, $id: Int!, $paid_at: String) {
+					changePayment(token: $token, id: $id, paid_at: $paid_at) {
+						id
+					}
+				}
+			`,
+			variables: {
+				token: localStorage.getItem('token'),
+				id: payment.id,
+				paid_at: paid ? moment().format('YYYY-MM-DD') : null
+			}
+		}).then(response => {
 			this.props.reload()
 		})
 	}
@@ -135,7 +147,10 @@ export default class Home extends Component {
 				</RowSpaceBetween>
 
 				<RowSpaceBetween className="mb-3" style={{ height: '50px' }}>
-					<Date>Date: {moment(bill.date).format('Do MMM YYYY')}</Date>
+					<div>
+						<Date>Posted: {moment(bill.created_at).format('Do MMM YYYY')}</Date>
+						<Date>Date: {moment(bill.date).format('Do MMM YYYY')}</Date>
+					</div>
 
 					{user.admin ? (
 						!payment.paid_at ? (
@@ -147,8 +162,6 @@ export default class Home extends Component {
 						) : null
 					)}
 				</RowSpaceBetween>
-
-				{/* <Equation>{bill.total_amount} / {bill.payments.length} = ${payment.amount}</Equation> */}
 
 				<Table>
 					<thead>
@@ -163,24 +176,32 @@ export default class Home extends Component {
 						{bill.payments.map(payment => (
 							<tr key={payment.id}>
 								<td>{payment.user.name}</td>
-								<td>${payment.amount}</td>
+								<td>${(payment.amount).toFixed(2)}</td>
 								<td>
-									{!!payment.paid_at ? (
-										<Icon symbol="check" />
-									) : (
-										<Icon symbol="times" />
-									)}
+									{payment.user.id !== user.id ? (
+										user.admin ? (
+											<input type="checkbox" checked={!!payment.paid_at} onChange={this.setPaid(payment)} />
+										) : (
+											!!payment.paid_at ? (
+												<Icon symbol="check" />
+											) : (
+												<Icon symbol="times" />
+											)
+										)
+									) : null}
 								</td>
 								<td>
-									{user.admin ? (
-										<input type="checkbox" checked={!!payment.confirmed_at} onChange={this.confirm(payment)} />
-									) : (
-										!!payment.confirmed_at ? (
-											<Icon symbol="check" />
+									{payment.user.id !== user.id ? (
+										user.admin ? (
+											<input type="checkbox" checked={!!payment.confirmed_at} onChange={this.setConfirmed(payment)} />
 										) : (
-											<Icon symbol="times" />
+											!!payment.confirmed_at ? (
+												<Icon symbol="check" />
+											) : (
+												<Icon symbol="times" />
+											)
 										)
-									)}
+									) : null}
 								</td>
 							</tr>
 						))}

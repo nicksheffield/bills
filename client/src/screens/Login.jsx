@@ -65,7 +65,7 @@ export default class Login extends Component {
 						/>
 					</div>
 					<div className="form-group">
-						<Button type="primary" text="Submit" submit />
+						<Button type="success" text="Submit" submit />
 					</div>
 				</form>
 			</Page>
