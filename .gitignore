@@ -1,3 +1,59 @@
 .DS_Store
 client/node_modules
 server/node_modules
+
+
+
+# OSX
+#
+native/.DS_Store
+
+# Xcode
+#
+native/build/
+native/*.pbxuser
+native/!default.pbxuser
+native/*.mode1v3
+native/!default.mode1v3
+native/*.mode2v3
+native/!default.mode2v3
+native/*.perspectivev3
+native/!default.perspectivev3
+native/xcuserdata
+native/*.xccheckout
+native/*.moved-aside
+native/DerivedData
+native/*.hmap
+native/*.ipa
+native/*.xcuserstate
+native/project.xcworkspace
+
+# Android/IntelliJ
+#
+native/build/
+native/.idea
+native/.gradle
+native/local.properties
+native/*.iml
+
+# node.js
+#
+native/node_modules/
+native/npm-debug.log
+native/yarn-error.log
+
+# BUCK
+native/buck-out/
+native/\.buckd/
+native/*.keystore
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+native/*/fastlane/report.xml
+native/*/fastlane/Preview.html
+native/*/fastlane/screenshots
