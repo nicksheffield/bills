@@ -1,0 +1,59 @@
+User {
+	id: ID
+	firstname: String
+	lastname: String
+	email: String
+	password: String
+	isTenant: Boolean
+	payments: [Payment]
+}
+
+Category {
+	id: ID
+	name: String
+	defaultAmount: Number
+	bills: [Bill]
+}
+
+Bill {
+	id: ID
+	category: Category
+	payments: [Payment]
+	documents: [Document]
+	total: Number
+	paid: Date
+	confirmed: Date
+}
+
+Payment {
+	id: ID
+	user: User
+	bill: Bill
+	amount: Number
+	paid: Date
+	confirmed: Date
+}
+
+Document {
+	id: ID
+	path: String
+	type: String
+	size: Number
+	bill: Bill
+}
+
+
+
+
+
+User has many payments
+Payment has a user
+
+Bill has one category
+Category has many bills
+
+Bill has many payments
+Payment has a bill
+
+Bill has many documents
+Document has a bill
